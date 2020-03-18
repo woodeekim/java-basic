@@ -34,7 +34,7 @@ public class IntQueue {
         }
     }
 
-    //enque
+    //enque()
     public int enque(int x) throws OverflowIntQueueException {
         if(number >= max) {
             throw new OverflowIntQueueException();
@@ -66,6 +66,63 @@ public class IntQueue {
         return x;
     }
 
+    //peek() - front 데이터를 본다.
+    public int peek() throws EmptyIntQueueException {
+        if(number <= 0){
+            throw new EmptyIntQueueException();
+        }
+        return queue[front];
+    }
+
+    //indexOf() - 해당하는 index 를 반환, 없으면 -1를 반환
+    public int indexOf(int x) {
+        //front 부터 선형검색
+        //front 는 queue[idx]의 가장 맨 앞이 아니기 때문에 idx 를 구해야한다.
+        for(int i = 0 ; i<number; i++) {
+            int idx = (i + front) % max;
+            if(queue[idx] == x){
+                return idx;
+            }//if
+        }//for
+       return -1;
+    }
+
+    //clear() - 큐를 비움
+    public void clear() {
+        number = front = rear = 0;
+    }
+
+    //capacity() - 큐의 용량응 반환
+    public int capacity() {
+        return max;
+    }
+
+    //size() - 큐에 쌓여 있는 데이터 수를 반환
+    public int size() {
+        return number;
+    }
+
+    //isEmpty() - 큐가 비어있으면 true, 아니면 false
+    public boolean isEmpty() {
+        return number <= 0;
+    }
+
+    //isFull() - 큐가 가득차 있으면 true, 아니면 false
+    public boolean isFull() {
+        return number >= max;
+    }
+
+    //dump() - front 부터 rear 순서로 모든 데이터 출력
+    public void dump() {
+            if(number <= 0) {
+                System.out.println("큐가 비어있습니다.");
+            } else {
+                for (int i = 0; i < number; i++) {
+                    System.out.println(queue[(i + front) % max]);
+            }//for
+        }//if~else
+    }
+
     public static void main(String[] args) {
         IntQueue que = new IntQueue(5);
         System.out.println("max : "+que.max);
@@ -82,14 +139,22 @@ public class IntQueue {
             System.out.println(que.queue[i]);
         }
 
+        /*que.deque();
         que.deque();
         que.deque();
         que.deque();
         que.deque();
-        //que.deque();
         for(int i = que.front; i<que.rear; i++){
             System.out.println(que.queue[i]);
-        }
+        }*/
+        System.out.println("peek : " + que.peek());
+        System.out.println("indexOf : " + que.indexOf(12));
+        System.out.println("capacity : " + que.capacity());
+        System.out.println("size : " + que.size());
+        System.out.println("isEmpty : " + que.isEmpty());
+        System.out.println("isFull : " + que.isFull());
+        System.out.println("dump");
+        que.dump();;
 
     }
 }
